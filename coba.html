@@ -1,33 +1,52 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Contoh Mengambil API</title>
+  <title>Tes</title>
+  <style>
+    .photo-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .photo {
+      width: 200px;
+      height: auto;
+      margin: 10px;
+    }
+  </style>
 </head>
 <body>
-  <div id="data-container"></div>
+  <div id="photos-container">
+    <img id="photo-1" class="photo" />
+    <img id="photo-2" class="photo" />
+    <img id="photo-3" class="photo" />
+    <img id="photo-4" class="photo" />
+    <img id="photo-5" class="photo" />
+    <img id="photo-6" class="photo" />
+  </div>
 
   <script>
-    // Membuat fungsi untuk mengambil API
-    function getDataFromAPI() {
-      fetch('https://mean-farm-production.up.railway.app/prestasi')
-        .then(response => response.json())
-        .then(data => {
-          // Menampilkan data dari API ke dalam elemen dengan id "data-container"
-          var dataContainer = document.getElementById('data-container');
-          dataContainer.innerHTML = `
-            <h2>Data dari API:</h2>
-            <p>NIM: ${data.nim}</p>
-            <p>Nama: ${data.nama}</p>
-            <p>Kegiatan: ${data.kegiatan}</p>
-            <p>Tingkat: ${data.tingkat}</p>
-            <p>Prestasi Dicapai: ${data.prestasiDicapai}</p>
-          `;
-        })
-        .catch(error => console.log(error));
-    }
+    // Mengambil data dan menampilkan foto-foto
+    fetch('https://api-dot-balimate-dev.et.r.appspot.com/destinations/1')
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(responseData) {
+        var data = responseData.data;
 
-    // Memanggil fungsi getDataFromAPI saat halaman selesai dimuat
-    window.onload = getDataFromAPI;
+        var photos = data.photos;
+
+        for (var i = 0; i < photos.length; i++) {
+          var photo = document.getElementById('photo-' + (i + 1));
+          if (photo) {
+            photo.src = photos[i];
+          }
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
   </script>
 </body>
 </html>

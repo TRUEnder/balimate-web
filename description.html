@@ -28,6 +28,7 @@
 </head>
 
 <body>
+
     <!-- Topbar Start -->
     <div class="container-fluid bg-light pt-3 d-none d-lg-block">
         <a class="mt-3" href="index.html">
@@ -40,29 +41,31 @@
     <div class="container-fluid p-0 m-0">
         <div id="carousel-container" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
-                <div class="carousel-item active" style="height: 35rem">
-                    <img class="w-100 object-fit-cover overflow-hidden" src="img/photo_1.png" alt="Image">
-                    <div class="carousel-caption" style="background: rgba(0,0,0,0.3)"></div>
+                <div id="photos-container">
+                    <div class="carousel-item active" style="height: 35rem">
+                        <img class="w-100 object-fit-cover overflow-hidden" id="photo-2" src=""> 
+                        <div class="carousel-caption" style="background: rgba(0,0,0,0.3)"></div>
+                    </div>
+                    <div class="carousel-item" style="height: 35rem">
+                        <img class="w-100 object-fit-cover" id="thumbnail" class="photo" src="" alt="Thumbnail">
+                        <div class="carousel-caption" style="background: rgba(0,0,0,0.3)"></div>
+                    </div>
+                    <div class="carousel-item" style="height: 35rem">
+                        <img class="w-100 object-fit-cover " id="photo-3" src="" alt="Image">
+                        <div class="carousel-caption" style="background: rgba(0,0,0,0.3)"></div>
+                    </div>
                 </div>
-                <div class="carousel-item" style="height: 35rem">
-                    <img class="w-100 object-fit-cover" src="img/photo_2.jpeg" alt="Image">
-                    <div class="carousel-caption" style="background: rgba(0,0,0,0.3)"></div>
-                </div>
-                <div class="carousel-item" style="height: 35rem">
-                    <img class="w-100 object-fit-cover" src="img/photo_4.webp" alt="Image">
-                    <div class="carousel-caption" style="background: rgba(0,0,0,0.3)"></div>
-                </div>
+                <a class="carousel-control-prev" href="#carousel-container" data-slide="prev">
+                    <div class="btn btn-dark" style="width: 45px; height: 45px;">
+                        <span class="carousel-control-prev-icon mb-n2"></span>
+                    </div>
+                </a>
+                <a class="carousel-control-next" href="#carousel-container" data-slide="next">
+                    <div class="btn btn-dark" style="width: 45px; height: 45px;">
+                        <span class="carousel-control-next-icon mb-n2"></span>
+                    </div>
+                </a>
             </div>
-            <a class="carousel-control-prev" href="#carousel-container" data-slide="prev">
-                <div class="btn btn-dark" style="width: 45px; height: 45px;">
-                    <span class="carousel-control-prev-icon mb-n2"></span>
-                </div>
-            </a>
-            <a class="carousel-control-next" href="#carousel-container" data-slide="next">
-                <div class="btn btn-dark" style="width: 45px; height: 45px;">
-                    <span class="carousel-control-next-icon mb-n2"></span>
-                </div>
-            </a>
         </div>
     </div>
     <!-- Carousel End -->
@@ -71,7 +74,11 @@
         <div class="row justify-content-center">
             <div class="col-md-8 d-flex flex-column" style="gap: 0.3rem">
                 <div class="row">
-                    <h2 class="text-white">Pura Tanah Lot</h2>
+
+
+                    <h2 id="place-name"></h2>
+                    <!-- <p id="description"></p> -->
+
                 </div>
                 <div class="row d-flex" style="gap: 1rem">
                     <div class="stars" style="width: fit-content; font-size: 1.2rem;">
@@ -97,7 +104,7 @@
                 <div class="row align-items-center pl-5 pr-5" style="min-height: 60px;">
                     <div class="col-md-7">
                         <div class="row">
-                            <h4>Rp. 100.000 - 110.000</h4>
+                            <h4><span id="weekend-price"></span> - <span id="weekday-price"></span></h4>
                         </div>
                         <div class="row pl-2" style="font-size: 1rem;">
                             (weekday - weekend)
@@ -126,19 +133,14 @@
         <div class="row justify-content-center align-items-center d-flex" style="font-size: 0.9rem; gap: 6rem;">
             <div class="col-md-4 d-flex flex-column" style="gap: 2.5rem">
                 <h5>Description</h5>
-                <p>Tanah Lot salah satu pura penting bagi umat Hindu Bali dan lokasi pura terletak di atas batu besar
-                    yang berada di lepas
-                    pantai. Pura Tanah Lot merupakan ikon pariwisata pulau Bali.<br /><br />
-                    Sejarah Pura Tanah Lot Bali Indonesia berdasarkan legenda, dikisahkan pada abad ke -15, Bhagawan
-                    Dang Hyang Nirartha
-                    melakukan misi penyebaran agama Hindu dari pulau Jawa ke pulau Bali.</p>
+                <p id="description"></p>
                 <button type="button" class="btn btn-dark rounded text-white"
                     style="width: fit-content; padding: 0.5rem 2.5rem; font-size: 0.83rem;">
                     Write a review
                 </button>
             </div>
             <div class="col-md-4 align-items-center">
-                <img src="img/photo_5.png" alt="">
+                <img id="photo-4" src="" alt="" style="height: 150px;">
             </div>
         </div>
     </div>
@@ -315,9 +317,9 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
 
     <!-- Template Javascript -->
-    <script src="js/main.js"></script>
+    <!-- <script src="js/main.js"></script> -->
 
-    <script>
+    <!-- <script>
         function toggleLike() {
             const likeButton = document.getElementById('like');
             if (likeButton.className === 'far fa-heart') {
@@ -329,6 +331,87 @@
                 likeButton.className = 'far fa-heart';
             }
         }
+        
+    </script> -->
+    <script>
+        // Mendapatkan referensi elemen thumbnail
+        var thumbnail = document.getElementById('thumbnail');
+
+        // Mendapatkan data dari API
+        fetch('https://api-dot-balimate-dev.et.r.appspot.com/destinations/1')
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (data) {
+                // Menampilkan thumbnail
+                thumbnail.src = data.data.thumbnail_url;
+
+                // Menampilkan informasi lainnya
+                // Misalnya, untuk menampilkan nama tempat
+                var placeName = document.getElementById('place-name');
+                placeName.textContent = data.data.place_name;
+
+                // Menampilkan deskripsi
+                var description = document.getElementById('description');
+                description.textContent = data.data.description;
+
+                // Menampilkan harga
+                var weekendPrice = document.getElementById('weekend-price');
+                weekendPrice.textContent = data.data.weekend_holiday_price;
+
+                var weekdayPrice = document.getElementById('weekday-price');
+                weekdayPrice.textContent = data.data.weekday_price;
+
+                // Menampilkan alamat
+                var address = document.getElementById('address');
+                address.textContent = data.data.alamat;
+
+                // Menampilkan peta
+                var mapsLink = document.getElementById('maps-link');
+                mapsLink.href = data.data.maps_url;
+
+                // Menampilkan foto-foto
+                //     var photosContainer = document.getElementById('photos-container');
+                //     var photos = data.data.photos;
+
+                //     var photos = data.data.photos;
+                //     var div1 = document.getElementById('div1');
+                //     var div2 = document.getElementById('div2');
+
+                //     for (var i = 0; i < photos.length; i++) {
+                //       var photo = document.createElement('img');
+                //       photo.src = photos[i];
+                //       photo.classList.add('photo');
+                //       photosContainer.appendChild(photo);
+                //     }
+                //   })
+                //   .catch(function(error) {
+                //     console.log(error);
+            });
+
+
+    </script>
+    <script>
+        // Mengambil data dan menampilkan foto-foto
+        fetch('https://api-dot-balimate-dev.et.r.appspot.com/destinations/1')
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (responseData) {
+                var data = responseData.data;
+
+                var photos = data.photos;
+
+                for (var i = 0; i < photos.length; i++) {
+                    var photo = document.getElementById('photo-' + (i + 1));
+                    if (photo) {
+                        photo.src = photos[i];
+                    }
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     </script>
 </body>
 
