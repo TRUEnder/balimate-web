@@ -2,5 +2,16 @@
 
 All files in `public` directory 👍
 
-Link deploy :
+Link :
 https://balimate.web.app
+
+Tutorial deploy :
+```
+firebase login
+```
+```
+firebase deploy --only hosting:balimate
+```
+Pilih project `balimate-dev`
+
+Mantap 👍
