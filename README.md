@@ -26,5 +26,5 @@ firebase init
 ```
 firebase deploy --only hosting:balimate
 ```
-
-Mantap 👍
+- Kerjakan 👍
+- Sebelum di push jangan lupa di pull
