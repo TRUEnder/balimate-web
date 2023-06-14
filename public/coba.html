@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tes</title>
+  <style>
+    .photo-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .photo {
+      width: 200px;
+      height: auto;
+      margin: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="photos-container">
+    <img id="photo-1" class="photo" />
+    <img id="photo-2" class="photo" />
+    <img id="photo-3" class="photo" />
+    <img id="photo-4" class="photo" />
+    <img id="photo-5" class="photo" />
+    <img id="photo-6" class="photo" />
+  </div>
+
+  <script>
+    // Mengambil data dan menampilkan foto-foto
+    fetch('https://api-dot-balimate-dev.et.r.appspot.com/destinations/1')
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(responseData) {
+        var data = responseData.data;
+
+        var photos = data.photos;
+
+        for (var i = 0; i < photos.length; i++) {
+          var photo = document.getElementById('photo-' + (i + 1));
+          if (photo) {
+            photo.src = photos[i];
+          }
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  </script>
+</body>
+</html>
