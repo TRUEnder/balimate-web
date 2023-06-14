@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>POST Preferences</title>
+</head>
+<body>
+  <form id="preferencesForm">
+    <label for="categories">Categories:</label>
+    <select id="categories" name="categories" multiple>
+      <option value="Agrowisata">Agrowisata</option>
+      <option value="Biodiversity">Biodiversity</option>
+    </select>
+    <br><br>
+    <label for="city">City:</label>
+    <input type="text" id="city" name="city">
+    <br><br>
+    <label for="price">Price:</label>
+    <select id="price" name="price">
+      <option value="Low">Low</option>
+      <option value="Middle">Middle</option>
+      <option value="High">High</option>
+    </select>
+    <br><br>
+    <button type="submit">Save Preferesasnces</button>
+  </form>
+
+  <script>
+    document.getElementById("preferencesForm").addEventListener("submit", function(event) {
+      event.preventDefault(); // Prevent form submission
+      
+      // Create payload object
+      var preferences = {
+        categories: ["Agrowisata", "Biodiversity"],
+        city: "Klungkung",
+        price: "Middle"
+      };
+      
+      // Send POST request
+      fetch("https://api-dot-balimate-dev.et.r.appspot.com/users/wGOvj1NAmbeDQPkKaxlEJ/preferences", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(preferences)
+      })
+      .then(response => {
+        if (response.ok) {
+          alert("Preferences saved successfully!");
+          document.getElementById("preferencesForm").reset(); // Reset form
+        } else {
+          alert("Failed to save preferences. Please try again.");
+        }
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        alert("An error occurred. Please try again later.");
+      });
+    });
+  </script>
+</body>
+</html>

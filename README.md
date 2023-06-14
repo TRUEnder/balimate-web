@@ -7,6 +7,7 @@ https://balimate.web.app
 
 Tutorial deploy (jika baru mulai) :
 - Clone repo ini
+- Kerjakan 👍
 - Pastikan sudah menginstal `firebase CLI`, jika belum :
 ```
 npm install -g firebase-tools
@@ -26,5 +27,4 @@ firebase init
 ```
 firebase deploy --only hosting:balimate
 ```
-- Kerjakan 👍
 - Sebelum di push jangan lupa di pull
