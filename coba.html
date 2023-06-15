@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Menampilkan Data API</title>
 </head>
+
 <body>
   <div id="data-container"></div>
   <p>User ID: ${item.user_id}</p>
@@ -38,5 +40,52 @@
     // Memanggil fungsi getDataFromAPI saat halaman selesai dimuat
     window.onload = getDataFromAPI;
   </script>
+  <script>
+    function getSelectedDestinationId() {
+      // Ambil ID destinasi dari localStorage
+      // Contoh penggunaan localStorage:
+      return localStorage.getItem('selectedDestinationId');
+
+      // Alternatif: Ambil ID destinasi dari URL
+      // Contoh penggunaan URL: http://example.com/description.html?id=123
+      // const urlParams = new URLSearchParams(window.location.search);
+      // return urlParams.get('id');
+    }
+
+    // Fungsi untuk melakukan fetch API GET dengan ID destinasi yang dipilih
+    function fetchSelectedDestination() {
+      const selectedDestinationId = getSelectedDestinationId();
+
+      if (selectedDestinationId) {
+        fetch(`https://api-dot-balimate-dev.et.r.appspot.com/destinations/${selectedDestinationId}`)
+          .then(response => response.json())
+          .then(data => {
+            // Lakukan operasi yang diperlukan dengan data yang diterima
+            console.log('Selected Destination:', data);
+
+            // Panggil fungsi untuk menampilkan deskripsi destinasi ke tampilan
+            displayDescription(data);
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+      } else {
+        console.error('No selected destination ID found.');
+      }
+    }
+
+    // Fungsi untuk menampilkan deskripsi destinasi ke tampilan
+    function displayDescription(destination) {
+      // Ambil elemen tampilan deskripsi (misalnya sebuah <div> dengan id "description-container")
+      const descriptionContainer = document.getElementById('description-container');
+
+      // Tampilkan deskripsi destinasi ke tampilan
+      descriptionContainer.textContent = destination.description;
+    }
+
+    // Panggil fungsi fetchSelectedDestination saat halaman dimuat
+    fetchSelectedDestination();
+  </script>
 </body>
+
 </html>

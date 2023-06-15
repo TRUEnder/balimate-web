@@ -248,9 +248,20 @@
         }
     </script>
     <script>
+        function getSelectedDestinationId() {
+            // Ambil ID destinasi dari localStorage
+            // Contoh penggunaan localStorage:
+            return localStorage.getItem('selectedDestinationId');
 
+            // Alternatif: Ambil ID destinasi dari URL
+            // Contoh penggunaan URL: http://example.com/description.html?id=123
+            // const urlParams = new URLSearchParams(window.location.search);
+            // return urlParams.get('id');
+        }
         // Mendapatkan data dari API
-        fetch('https://api-dot-balimate-dev.et.r.appspot.com/destinations/2')
+        const selectedDestinationId = localStorage.getItem('selectedDestinationId');
+        console.log("ini idnya "+selectedDestinationId);
+        fetch(`https://api-dot-balimate-dev.et.r.appspot.com/destinations/${selectedDestinationId}`)
             .then(function (response) {
                 return response.json();
             })
