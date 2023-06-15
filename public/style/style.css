@@ -2210,7 +2210,7 @@ pre code {
 .form-control:focus {
   color: #495057;
   background-color: #fff;
-  border-color: #b8e087;
+  border-color: rgb(255, 193, 7);
   outline: 0;
   box-shadow: 0 0 0 0.2rem rgba(122, 183, 48, 0.25);
 }
@@ -2709,14 +2709,14 @@ fieldset:disabled a.btn {
 
 .btn-primary {
   color: #fff;
-  background-color: #7AB730;
-  border-color: #7AB730;
+  background-color: #007bff;
+  border-color: #007bff;
 }
 
 .btn-primary:hover {
   color: #fff;
-  background-color: #669928;
-  border-color: #5f8f25;
+  background-color: #258eff;
+  border-color: #258eff;
 }
 
 .btn-primary:focus,
