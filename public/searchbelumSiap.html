@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Destination Search</title>
+</head>
+<body>
+    <h1>Destination Search</h1>
+    <form id="search-form">
+        <label for="search-input">Search:</label>
+        <input type="text" id="search-input" placeholder="Enter a destination">
+        <button type="submit">Search</button>
+    </form>
+    <div id="results-container" class="row"></div>
+
+    <script>
+        var searchForm = document.getElementById('search-form');
+        var searchInput = document.getElementById('search-input');
+        var resultsContainer = document.getElementById('results-container');
+
+        searchForm.addEventListener('submit', function (event) {
+            event.preventDefault(); // Menghentikan pengiriman formulir
+
+            var searchTerm = searchInput.value;
+
+            // Menghapus hasil pencarian sebelumnya
+            resultsContainer.innerHTML = '';
+
+            // Melakukan pencarian menggunakan API
+            var apiURL = 'https://api-dot-balimate-dev.et.r.appspot.com/destinations/search?q=' + searchTerm;
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', apiURL, true);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    var data = JSON.parse(xhr.responseText);
+                    var destinations = data.data;
+
+                    if (destinations.length === 0) {
+                        resultsContainer.textContent = 'No results found.';
+                    } else {
+                        for (var i = 0; i < destinations.length; i++) {
+                            var destination = destinations[i];
+
+                            var destinationElement = document.createElement('div');
+                            destinationElement.className = 'col-4';
+                            destinationElement.innerHTML = `
+                                <div class="card">
+                                    <img class="card-img-top" src="${destination.thumbnail_url}" alt="Thumbnail">
+                                    <div class="card-body">
+                                        <h2 class="card-title">${destination.place_name}</h2>
+                                        <p class="card-text">${destination.description}</p>
+                                        <p>Weekend/Holiday Price: ${destination.weekend_holiday_price}</p>
+                                        <p>Weekday Price: ${destination.weekday_price}</p>
+                                        <p>Address: ${destination.alamat}</p>
+                                        <a href="${destination.maps_url}" target="_blank">View on Maps</a>
+                                    </div>
+                                </div>
+                            `;
+
+                            resultsContainer.appendChild(destinationElement);
+                        }
+                    }
+                } else {
+                    console.log('Request failed. Status:', xhr.status);
+                }
+            };
+            xhr.onerror = function () {
+                console.log('Request failed. Check your network connection.');
+            };
+            xhr.send();
+        });
+    </script>
+</body>
+</html>

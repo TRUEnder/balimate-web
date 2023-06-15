@@ -1,81 +1,136 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <title>API Example</title>
+  <title>Destination Search</title>
+</head>
+
+<body>
+  <title>Destination Search</title>
   <style>
-    .photo {
-      width: 200px;
-      height: 150px;
-      object-fit: cover;
-      margin-right: 10px;
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    #search-form {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    #search-input {
+      padding: 8px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    #results-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .destination-card {
+      width: 300px;
+      margin: 10px;
+      padding: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      border-radius: 4px;
+      background-color: #f9f9f9;
+    }
+
+    .destination-card h2 {
+      margin-top: 0;
+    }
+
+    .destination-card p {
+      margin-bottom: 8px;
+    }
+
+    .destination-card a {
+      display: inline-block;
+      margin-top: 8px;
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .destination-card img.thumbnail {
+      width: 100%;
+      border-radius: 4px;
+      margin-top: 10px;
     }
   </style>
-</head>
-<body>
-  <h1>Destination Details</h1>
-  <div id="thumbnail-container">
-    <img id="thumbnail" class="photo" src="" alt="Thumbnail">
-  </div>
-  <h2 id="place-name"></h2>
-  <p id="description"></p>
-  <p>Weekend/Holiday Price: <span id="weekend-price"></span></p>
-  <p>Weekday Price: <span id="weekday-price"></span></p>
-  <p id="address"></p>
-  <a id="maps-link" href="" target="_blank">View on Maps</a>
-  <div id="photos-container"></div>
+  </head>
 
-  <script>
-    // Mendapatkan referensi elemen thumbnail
-    var thumbnail = document.getElementById('thumbnail');
+  <body>
+    <h1>Destination Search</h1>
+    <form id="search-form">
+      <label for="search-input">Search:</label>
+      <input type="text" id="search-input" placeholder="Enter a destination">
+      <button type="submit">Search</button>
+    </form>
+    <div id="results-container"></div>
 
-    // Mendapatkan data dari API
-    fetch('https://api-dot-balimate-dev.et.r.appspot.com/destinations/1')
-      .then(function(response) {
-        return response.json();
-      })
-      .then(function(data) {
-        // Menampilkan thumbnail
-        thumbnail.src = data.data.thumbnail_url;
+    <script>
+      var searchForm = document.getElementById('search-form');
+      var searchInput = document.getElementById('search-input');
+      var resultsContainer = document.getElementById('results-container');
 
-        // Menampilkan informasi lainnya
-        // Misalnya, untuk menampilkan nama tempat
-        var placeName = document.getElementById('place-name');
-        placeName.textContent = data.data.place_name;
+      searchForm.addEventListener('submit', function (event) {
+        event.preventDefault(); // Menghentikan pengiriman formulir
 
-        // Menampilkan deskripsi
-        var description = document.getElementById('description');
-        description.textContent = data.data.description;
+        var searchTerm = searchInput.value;
 
-        // Menampilkan harga
-        var weekendPrice = document.getElementById('weekend-price');
-        weekendPrice.textContent = data.data.weekend_holiday_price;
+        // Menghapus hasil pencarian sebelumnya
+        resultsContainer.innerHTML = '';
 
-        var weekdayPrice = document.getElementById('weekday-price');
-        weekdayPrice.textContent = data.data.weekday_price;
+        // Melakukan pencarian menggunakan API
+        var apiURL = 'https://api-dot-balimate-dev.et.r.appspot.com/destinations/search?q=' + searchTerm;
 
-        // Menampilkan alamat
-        var address = document.getElementById('address');
-        address.textContent = data.data.alamat;
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', apiURL, true);
+        xhr.onload = function () {
+          if (xhr.status === 200) {
+            var data = JSON.parse(xhr.responseText);
+            var destinations = data.data;
 
-        // Menampilkan peta
-        var mapsLink = document.getElementById('maps-link');
-        mapsLink.href = data.data.maps_url;
+            if (destinations.length === 0) {
+              resultsContainer.textContent = 'No results found.';
+            } else {
+              for (var i = 0; i < destinations.length; i++) {
+                var destination = destinations[i];
 
-        // Menampilkan foto-foto
-        var photosContainer = document.getElementById('photos-container');
-        var photos = data.data.photos;
+                var destinationElement = document.createElement('div');
+                destinationElement.innerHTML = `
+                                <h2>${destination.place_name}</h2>
+                                <p>${destination.description}</p>
+                                <p>Weekend/Holiday Price: ${destination.weekend_holiday_price}</p>
+                                <p>Weekday Price: ${destination.weekday_price}</p>
+                                <p>Address: ${destination.alamat}</p>
+                                <a href="${destination.maps_url}" target="_blank">View on Maps</a>
+                                <img class="thumbnail" src="${destination.thumbnail_url}" alt="Thumbnail">
+                                
+                            `;
 
-        for (var i = 0; i < photos.length; i++) {
-          var photo = document.createElement('img');
-          photo.src = photos[i];
-          photo.classList.add('photo');
-
-          photosContainer.appendChild(photo);
-        }
-      })
-      .catch(function(error) {
-        console.log(error);
+                resultsContainer.appendChild(destinationElement);
+              }
+            }
+          } else {
+            console.log('Request failed. Status:', xhr.status);
+          }
+        };
+        xhr.onerror = function () {
+          console.log('Request failed. Check your network connection.');
+        };
+        xhr.send();
       });
-  </script>
-</body>
+    </script>
+  </body>
+
 </html>
