@@ -96,7 +96,7 @@
                   <p class="float-end">Rp. 500.000</p>
                 </div>
               </div>
-
+              <button onclick="goToDescription(1)">Destinasi 1</button>
             </div>
           </div>
         </div>
@@ -130,7 +130,7 @@
                   <p class="float-end">Rp. 100.000</p>
                 </div>
               </div>
-
+              <button onclick="goToDescription(2)">Destinasi 2</button>
             </div>
           </div>
         </div>
@@ -164,7 +164,7 @@
                   <p class="float-end">Free</p>
                 </div>
               </div>
-
+              <button onclick="goToDescription(3)">Destinasi 3</button>
             </div>
           </div>
         </div>
@@ -174,7 +174,60 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
-    crossorigin="anonymous"></script>
+    crossorigin="anonymous">
+  </script>
+  <script>
+    // Fungsi untuk melakukan fetch API GET dan mendapatkan destinasi
+function fetchDestinations() {
+  fetch('https://api-dot-balimate-dev.et.r.appspot.com/destinations')
+    .then(response => response.json())
+    .then(data => {
+      // Lakukan operasi yang diperlukan dengan data yang diterima
+      console.log('Data Destinations:', data);
+
+      // Panggil fungsi untuk menampilkan destinasi ke tampilan
+      displayDestinations(data);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+}
+
+// Fungsi untuk menampilkan destinasi ke tampilan
+function displayDestinations(destinations) {
+  // Ambil elemen tampilan destinasi (misalnya sebuah <ul> dengan id "destination-list")
+  const destinationList = document.getElementById('destination-list');
+
+  // Buat elemen list item untuk setiap destinasi
+  destinations.forEach(destination => {
+    const listItem = document.createElement('li');
+    listItem.textContent = destination.name;
+
+    // Tambahkan event listener pada setiap elemen list item untuk menangani klik
+    listItem.addEventListener('click', () => {
+      // Panggil fungsi untuk memindahkan ke file deskripsi dengan mengirimkan ID destinasi
+      goToDescription(destination.id);
+    });
+
+    // Tambahkan elemen list item ke tampilan destinasi
+    destinationList.appendChild(listItem);
+  });
+}
+
+// Fungsi untuk memindahkan ke file deskripsi dengan ID destinasi
+function goToDescription(destinationId) {
+  // Simpan ID destinasi ke localStorage atau URL
+  // Contoh penggunaan localStorage:
+  localStorage.setItem('selectedDestinationId', destinationId);
+
+  // Pindah ke file deskripsi (misalnya "description.html")
+  window.location.href = 'description.html';
+}
+
+// Panggil fungsi fetchDestinations saat halaman dimuat
+fetchDestinations();
+
+  </script>
 </body>
 
 </html>
