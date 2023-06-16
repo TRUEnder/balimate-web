@@ -122,8 +122,8 @@
                 <div>
                     <p id="description"></p>
                     <div>
-                        <a href="description_eng.html" style="color: #6b6b6b; text-decoration: underline;">Translate to
-                            English</a>
+                        <a href="description.html" style="color: #6b6b6b; text-decoration: underline;">Terjemahkan
+                            ke Indonesia</a>
                     </div>
                 </div>
                 <a href="rating.html">
@@ -256,7 +256,7 @@
     <script>
 
         // Mendapatkan data dari API
-        fetch('https://api-dot-balimate-dev.et.r.appspot.com/destinations/20')
+        fetch('https://api-dot-balimate-dev.et.r.appspot.com/destinations/20?lang=en')
             .then(function (response) {
                 return response.json();
             })
@@ -277,12 +277,12 @@
                     if (resp.data.weekend_holiday_price === 0 && resp.data.weekday_price === 0) {
                         priceContainer.innerText = 'Free'
                     } else if (resp.data.weekend_holiday_price === resp.data.weekday_price) {
-                        var weekdayPr = new Intl.NumberFormat('id').format(resp.data.weekday_price);
-                        priceContainer.innerText = 'Rp. ' + weekdayPr
+                        var weekdayPr = new Intl.NumberFormat('en-US').format(resp.data.weekday_price);
+                        priceContainer.innerText = '$ ' + weekdayPr
                     } else {
                         var weekdayPr = new Intl.NumberFormat('id').format(resp.data.weekday_price);
                         var weekendPr = new Intl.NumberFormat('id').format(resp.data.weekend_holiday_price);
-                        priceContainer.innerText = 'Rp. ' + weekdayPr + ' - ' + weekendPr
+                        priceContainer.innerText = '$ ' + weekdayPr + ' - ' + weekendPr
                     }
 
                     // Menampilkan rating dan bintang
@@ -358,7 +358,7 @@
         const morelike = document.getElementById('more-like')
 
         // Mendapatkan data dari API
-        fetch('https://api-dot-balimate-dev.et.r.appspot.com/destinations?rating=3')
+        fetch('https://api-dot-balimate-dev.et.r.appspot.com/destinations?limit=3')
             .then(function (response) {
                 return response.json()
             })
